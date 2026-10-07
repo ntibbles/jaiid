@@ -1,5 +1,5 @@
 /**
- * Build script for JAiD (Just AI image descriptions) Chrome Extension
+ * Build script for jaiid (Just AI image descriptions) Chrome Extension
  * Creates a clean distribution package with only production files
  */
 
@@ -73,7 +73,7 @@ function copyDir(src, dest) {
  * Main build function
  */
 function build() {
-  console.log('\n🚀 Building JAiD Extension...\n');
+  console.log('\n🚀 Building jaiid Extension...\n');
   
   // Remove existing dist folder
   removeDir(DIST_DIR);

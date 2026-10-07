@@ -1,5 +1,5 @@
 /**
- * Background service worker for JAiD (Just AI image descriptions) extension
+ * Background service worker for jaiid (Just AI image descriptions) extension
  * Handles extension icon clicks and injects content script + styles
  */
 

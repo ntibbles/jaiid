@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "JAiD",
+  "name": "jaiid",
   "version": "1.0.0",
   "description": "Automatically generate AI-powered alt text for images on web pages using Chrome's built-in AI",
   "permissions": [
@@ -16,7 +16,7 @@
       "48": "images/alt-text-icon-48.png",
       "128": "images/alt-text-icon-128.png"
     },
-    "default_title": "JAiD - Just AI image descriptions"
+    "default_title": "jaiid - Just AI image descriptions"
   },
   "background": {
     "service_worker": "background.js"

@@ -1,7 +1,7 @@
 {
-  "name": "ai-alt-text",
+  "name": "jaiid",
   "version": "1.0.0",
-  "description": "Chrome extension for AI-powered alt text generation",
+  "description": "Just AI image descriptions",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",

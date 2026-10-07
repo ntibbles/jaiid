@@ -1,6 +1,6 @@
-# Using JAiD Extension
+# Using jaiid Extension
 
-This guide provides detailed instructions for using the JAiD (Just AI image descriptions) Chrome extension.
+This guide provides detailed instructions for using the jaiid (Just AI image descriptions) Chrome extension.
 
 ## First-Time Setup
 
@@ -50,7 +50,7 @@ After the initial model download, usage is fast and simple:
 ### Activating the Extension
 
 1. **Navigate** to any webpage with images
-2. **Click** the JAiD icon in your Chrome toolbar
+2. **Click** the jaiid icon in your Chrome toolbar
 3. **Look** for info buttons (ℹ️) on eligible images
 
 ### Generating Alt Text
@@ -152,7 +152,7 @@ The extension respects system high contrast settings and provides:
 1. Go to `chrome://extensions`
 2. Verify extension is **enabled**
 3. Click the puzzle icon in Chrome toolbar
-4. Pin the JAiD extension
+4. Pin the jaiid extension
 
 ### No Info Buttons on Images
 

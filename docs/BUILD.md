@@ -1,6 +1,6 @@
-# Build Guide for JAiD Extension
+# Build Guide for jaiid Extension
 
-This guide explains how to build and package the JAiD (Just AI image descriptions) Chrome extension for distribution.
+This guide explains how to build and package the jaiid (Just AI image descriptions) Chrome extension for distribution.
 
 ## Quick Start
 
@@ -69,7 +69,7 @@ Creates the `dist/` folder with production-ready files.
 
 **Output:**
 ```
-🚀 Building JAiD Extension...
+🚀 Building jaiid Extension...
 
 ✓ Removed existing directory: dist
 ✓ Created directory: dist

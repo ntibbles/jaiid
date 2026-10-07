@@ -1,6 +1,6 @@
-# Contributing to JAiD Extension
+# Contributing to jaiid Extension
 
-Thank you for your interest in contributing! This document provides guidelines for contributing to the JAiD (Just AI image descriptions) Chrome extension.
+Thank you for your interest in contributing! This document provides guidelines for contributing to the jaiid (Just AI image descriptions) Chrome extension.
 
 ## Getting Started
 

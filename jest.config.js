@@ -1,5 +1,5 @@
 /**
- * Jest configuration for JAiD (Just AI image descriptions) extension
+ * Jest configuration for jaiid (Just AI image descriptions) extension
  */
 
 module.exports = {

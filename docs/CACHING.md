@@ -1,6 +1,6 @@
 # Alt Text Caching
 
-This document explains how the JAiD (Just AI image descriptions) extension caches generated alt text to improve performance and user experience.
+This document explains how the jaiid (Just AI image descriptions) extension caches generated alt text to improve performance and user experience.
 
 ## Overview
 

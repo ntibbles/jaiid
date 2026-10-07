@@ -1,5 +1,5 @@
 /**
- * Styles for JAiD (Just AI image descriptions) Chrome Extension
+ * Styles for jaiid (Just AI image descriptions) Chrome Extension
  */
 
 /* Screen reader only content */
@@ -92,9 +92,8 @@
 .ai-alt-popover-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  align-items: self-start;
+  padding: 16px 16px 8px 16px;
 }
 
 .ai-alt-popover-title {
@@ -131,7 +130,7 @@
 
 /* Popover content */
 .ai-alt-popover-content {
-  padding: 16px;
+  padding: 8px 16px 16px 16px;
 }
 
 .ai-alt-loading {

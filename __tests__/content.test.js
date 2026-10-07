@@ -387,3 +387,164 @@ describe('Content Script - Dynamic Image Loading', () => {
     }, 100);
   });
 });
+
+describe('Content Script - Duplicate Icon Prevention', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.aiAltTextInjected = false;
+  });
+
+  test('should not create duplicate buttons for already processed images', () => {
+    // Create eligible image
+    const img = document.createElement('img');
+    img.src = 'https://picsum.photos/300/300';
+    Object.defineProperty(img, 'naturalWidth', { value: 300, configurable: true });
+    Object.defineProperty(img, 'naturalHeight', { value: 300, configurable: true });
+    Object.defineProperty(img, 'complete', { value: true, configurable: true });
+    Object.defineProperty(img, 'getBoundingClientRect', {
+      value: () => ({ width: 300, height: 300, top: 0, left: 0 }),
+      configurable: true
+    });
+    document.body.appendChild(img);
+
+    // Process image first time
+    eval(contentScript);
+    
+    // Count buttons created
+    const firstButtonCount = document.querySelectorAll('.ai-alt-info-button').length;
+    expect(firstButtonCount).toBe(1);
+    expect(img.getAttribute('data-ai-alt-processed')).toBe('true');
+    
+    // Try to process the same image again by triggering mutation observer
+    const newDiv = document.createElement('div');
+    document.body.appendChild(newDiv);
+    
+    // Wait for debounced mutation observer
+    setTimeout(() => {
+      const finalButtonCount = document.querySelectorAll('.ai-alt-info-button').length;
+      expect(finalButtonCount).toBe(1); // Should still be 1, not duplicated
+    }, 150);
+  });
+
+  test('should skip images that already have wrappers', () => {
+    // Create eligible image
+    const img = document.createElement('img');
+    img.src = 'https://picsum.photos/300/300';
+    Object.defineProperty(img, 'naturalWidth', { value: 300, configurable: true });
+    Object.defineProperty(img, 'naturalHeight', { value: 300, configurable: true });
+    Object.defineProperty(img, 'complete', { value: true, configurable: true });
+    Object.defineProperty(img, 'getBoundingClientRect', {
+      value: () => ({ width: 300, height: 300, top: 0, left: 0 }),
+      configurable: true
+    });
+    document.body.appendChild(img);
+
+    // Process image
+    eval(contentScript);
+    
+    // Verify wrapper was created
+    const wrapper = img.parentElement;
+    expect(wrapper.classList.contains('ai-alt-image-wrapper')).toBe(true);
+    
+    // Count wrappers
+    const firstWrapperCount = document.querySelectorAll('.ai-alt-image-wrapper').length;
+    expect(firstWrapperCount).toBe(1);
+    
+    // Manually try to attach button again (simulating bug scenario)
+    // This should be prevented by the defensive check
+    const buttonsBefore = document.querySelectorAll('.ai-alt-info-button').length;
+    
+    // Remove processed flag to test defensive wrapper check
+    img.removeAttribute('data-ai-alt-processed');
+    
+    // Trigger processing again
+    const newDiv = document.createElement('div');
+    document.body.appendChild(newDiv);
+    
+    setTimeout(() => {
+      const buttonsAfter = document.querySelectorAll('.ai-alt-info-button').length;
+      expect(buttonsAfter).toBe(buttonsBefore); // Should not create duplicate
+    }, 150);
+  });
+
+  test('should only process newly added images in mutation observer', (done) => {
+    // Create initial images
+    const img1 = document.createElement('img');
+    img1.src = 'https://picsum.photos/300/300';
+    img1.id = 'img1';
+    Object.defineProperty(img1, 'naturalWidth', { value: 300, configurable: true });
+    Object.defineProperty(img1, 'naturalHeight', { value: 300, configurable: true });
+    Object.defineProperty(img1, 'complete', { value: true, configurable: true });
+    Object.defineProperty(img1, 'getBoundingClientRect', {
+      value: () => ({ width: 300, height: 300, top: 0, left: 0 }),
+      configurable: true
+    });
+    document.body.appendChild(img1);
+
+    // Initialize script
+    eval(contentScript);
+    
+    // Count initial buttons
+    const initialButtons = document.querySelectorAll('.ai-alt-info-button').length;
+    expect(initialButtons).toBe(1);
+
+    // Add a new image dynamically
+    const img2 = document.createElement('img');
+    img2.src = 'https://picsum.photos/400/400';
+    img2.id = 'img2';
+    Object.defineProperty(img2, 'naturalWidth', { value: 400, configurable: true });
+    Object.defineProperty(img2, 'naturalHeight', { value: 400, configurable: true });
+    Object.defineProperty(img2, 'complete', { value: true, configurable: true });
+    Object.defineProperty(img2, 'getBoundingClientRect', {
+      value: () => ({ width: 400, height: 400, top: 0, left: 0 }),
+      configurable: true
+    });
+    document.body.appendChild(img2);
+
+    // Wait for debounced mutation observer
+    setTimeout(() => {
+      const finalButtons = document.querySelectorAll('.ai-alt-info-button').length;
+      expect(finalButtons).toBe(2); // One for each image
+      
+      // Verify first image wasn't reprocessed (no duplicate button)
+      const img1Wrapper = img1.closest('.ai-alt-image-wrapper');
+      const img1Buttons = img1Wrapper?.querySelectorAll('.ai-alt-info-button').length || 0;
+      expect(img1Buttons).toBe(1); // Should still have exactly 1 button
+      
+      done();
+    }, 150);
+  });
+
+  test('should debounce mutation observer to prevent excessive processing', (done) => {
+    // Initialize script
+    eval(contentScript);
+    
+    let processCallCount = 0;
+    const originalQuerySelectorAll = document.querySelectorAll.bind(document);
+    
+    // Monitor how many times images are queried (indication of processing)
+    document.querySelectorAll = jest.fn((selector) => {
+      if (selector.includes('img:not([data-ai-alt-processed])')) {
+        processCallCount++;
+      }
+      return originalQuerySelectorAll(selector);
+    });
+
+    // Trigger multiple rapid DOM mutations
+    for (let i = 0; i < 10; i++) {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+    }
+
+    // Without debouncing, this would process 10 times
+    // With debouncing (100ms), it should process only once after all mutations
+    setTimeout(() => {
+      // Should be processed much fewer times than mutations
+      expect(processCallCount).toBeLessThan(5);
+      
+      // Restore original function
+      document.querySelectorAll = originalQuerySelectorAll;
+      done();
+    }, 200);
+  });
+});}

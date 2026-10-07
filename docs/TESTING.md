@@ -1,6 +1,6 @@
-# Testing Guide for JAiD Extension
+# Testing Guide for jaiid Extension
 
-This document provides comprehensive information about testing the JAiD (Just AI image descriptions) Chrome extension.
+This document provides comprehensive information about testing the jaiid (Just AI image descriptions) Chrome extension.
 
 ## Test Suite Overview
 

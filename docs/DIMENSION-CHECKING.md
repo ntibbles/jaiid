@@ -1,6 +1,6 @@
 # Dual Dimension Checking
 
-This document explains how the JAiD (Just AI image descriptions) extension checks both **natural** and **rendered** image dimensions to determine eligibility.
+This document explains how the jaiid (Just AI image descriptions) extension checks both **natural** and **rendered** image dimensions to determine eligibility.
 
 ## Overview
 

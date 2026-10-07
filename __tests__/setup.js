@@ -1,5 +1,5 @@
 /**
- * Jest setup file for JAiD (Just AI image descriptions) extension tests
+ * Jest setup file for jaiid (Just AI image descriptions) extension tests
  */
 
 // Mock Chrome API

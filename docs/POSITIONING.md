@@ -1,6 +1,6 @@
 # Popover Positioning Guide
 
-This document explains how the JAiD (Just AI image descriptions) extension positions popovers relative to their trigger buttons.
+This document explains how the jaiid (Just AI image descriptions) extension positions popovers relative to their trigger buttons.
 
 ## Overview
 

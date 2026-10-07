@@ -1,6 +1,6 @@
 # Interactive Parent Handling
 
-This document explains how the JAiD (Just AI image descriptions) extension handles images nested inside interactive elements (links, buttons) to maintain WCAG accessibility compliance.
+This document explains how the jaiid (Just AI image descriptions) extension handles images nested inside interactive elements (links, buttons) to maintain WCAG accessibility compliance.
 
 ## Overview
 

@@ -1,5 +1,5 @@
 /**
- * Content script for JAiD (Just AI image descriptions) extension
+ * Content script for jaiid (Just AI image descriptions) extension
  * Scans for eligible images, creates UI elements, generates alt text using Chrome AI
  */
 
@@ -35,11 +35,6 @@
 
     // Check if image is loaded
     if (!naturalWidth || !naturalHeight) {
-      return false;
-    }
-
-    // Check natural dimensions: larger than 125x125, less than 1500px wide
-    if (naturalWidth < 125 || naturalHeight < 125 || naturalWidth >= 1500) {
       return false;
     }
 
@@ -261,12 +256,25 @@
    * @param {HTMLImageElement} img - The image element
    */
   function attachButtonToImage(img) {
+    // Double-check if already processed (defensive check)
+    if (img.getAttribute('data-ai-alt-processed') === 'true') {
+      console.log('Image already processed, skipping:', img.src);
+      return;
+    }
+    
+    // Check if a wrapper already exists for this image
+    const existingWrapper = img.parentElement?.classList?.contains('ai-alt-image-wrapper');
+    if (existingWrapper) {
+      console.log('Wrapper already exists, skipping:', img.src);
+      return;
+    }
+    
     imageCounter++;
     const imageId = `ai-alt-image-${imageCounter}`;
     const buttonId = `ai-alt-btn-${imageCounter}`;
     const popoverId = `ai-alt-popover-${imageCounter}`;
 
-    // Mark image as processed
+    // Mark image as processed FIRST to prevent race conditions
     img.setAttribute('data-ai-alt-processed', 'true');
     img.setAttribute('id', imageId);
 
@@ -322,7 +330,7 @@
     // Popover content
     popover.innerHTML = `
       <div class="ai-alt-popover-header">
-        <h2 id="${popoverId}-title" class="ai-alt-popover-title">AI-Generated Alt Text</h2>
+        <h2 id="${popoverId}-title" class="ai-alt-popover-title">AI Image Description</h2>
         <button class="ai-alt-close-btn" popovertarget="${popoverId}" popovertargetaction="hide" aria-label="Close dialog">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
             <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
@@ -330,7 +338,7 @@
         </button>
       </div>
       <div class="ai-alt-popover-content">
-        <div class="ai-alt-loading" role="status" aria-live="polite">Generating alt text...</div>
+        <p class="ai-alt-loading" role="status">Generating alt text...</p>
       </div>
     `;
 
@@ -403,6 +411,9 @@
           
           // Update popover with result
           contentDiv.innerHTML = `<p class="ai-alt-text" role="alert">${altText}</p>`;
+
+          // reposition with new content
+          positionPopover(popover, button);
         }
       }
     });
@@ -436,13 +447,59 @@
       }
     });
   }
+  
+  /**
+   * Process only newly added images from mutations
+   * More efficient than reprocessing all images
+   * @param {MutationRecord[]} mutations - Array of mutation records
+   */
+  function processNewImages(mutations) {
+    const newImages = new Set();
+    
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        // Check if the added node is an image
+        if (node.nodeName === 'IMG' && !node.getAttribute('data-ai-alt-processed')) {
+          newImages.add(node);
+        }
+        // Check if the added node contains images
+        if (node.querySelectorAll) {
+          const imgs = node.querySelectorAll('img:not([data-ai-alt-processed])');
+          imgs.forEach(img => newImages.add(img));
+        }
+      });
+    });
+    
+    // Process only the new images
+    newImages.forEach(img => {
+      if (img.complete) {
+        if (isEligibleImage(img)) {
+          attachButtonToImage(img);
+        }
+      } else {
+        img.addEventListener('load', () => {
+          if (isEligibleImage(img)) {
+            attachButtonToImage(img);
+          }
+        }, { once: true });
+      }
+    });
+  }
 
   // Process images on load
   processImages();
 
+  // Debounce timer for mutation observer
+  let mutationTimer = null;
+  
   // Observe for dynamically added images
   const observer = new MutationObserver((mutations) => {
-    processImages();
+    // Debounce: wait 100ms before processing to batch multiple mutations
+    clearTimeout(mutationTimer);
+    mutationTimer = setTimeout(() => {
+      // Only process newly added images, not all images
+      processNewImages(mutations);
+    }, 100);
   });
 
   observer.observe(document.body, {
