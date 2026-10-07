@@ -132,10 +132,12 @@
       const session = await LanguageModel.create({
         systemPrompt: `You are an expert accessibility specialist. Your task is to write comprehensive, accurate, and descriptive alt text for images to be read by screen readers. 
         Rules:
-          - Focus on the most important details, the context, and transcribe any visible text.
-          - Describe the subject, setting, and mood.
-          - NEVER start with 'A picture of' or 'An image of'. Start directly with the description.`,
-        expectedInputs: [{ type: 'image' }, { type: 'text', languages: ["en"] }]
+        - Focus on the most important details, the context, and transcribe any visible text.
+        - Describe the subject, setting, and mood.
+        - NEVER format the output and ONLY provide alt text.
+        - NEVER start with 'A picture of' or 'An image of'. Start directly with the description.`,
+        expectedInputs: [{ type: 'image' }, { type: 'text', languages: ["en"] }],
+        expectedLanguage: 'en'
       });
       
       const response = await fetch(img.src);
