@@ -4,14 +4,9 @@
 
 ## Features
 
-✨ **AI-Powered Alt Text Generation**: Uses Chrome's built-in AI to generate contextual, descriptive alt text
+✨ **AI-Powered Alt Text Generation**: Uses Chrome's built-in AI to generate contextual, descriptive alt text. **No token usage or AI subscription needed!**
 
 🎯 **Smart Image Detection**: Automatically identifies eligible images based on size and format
-
-📥 **Intelligent Model Download**: Automatically handles Gemini Nano model download with real-time progress tracking
-  - Shows download percentage in dialog
-  - Resumes seamlessly after download completes
-  - One-time download persists across sessions
 
 💾 **Smart Caching**: Generated alt text is cached per image for instant reuse
   - First open: AI generates description (shows loading state)
@@ -28,19 +23,6 @@
 🎨 **Non-Intrusive UI**: Subtle info button overlays that appear only on eligible images
 
 ⚡ **Modern Standards**: Manifest V3 compliant
-
-## Requirements
-
-- **Chrome Canary** or **Chrome Dev** (version 121+)
-- **Chrome AI features enabled** (experimental)
-
-### Enabling Chrome AI
-v
-1. Open Chrome Canary or Chrome Dev
-2. Navigate to `chrome://flags`
-3. Search for "Prompt API for Gemini Nano"
-4. Enable the flag
-5. Restart Chrome
 
 ## Installation
 
@@ -175,7 +157,6 @@ The test suite covers:
 - ✅ Script and CSS injection
 - ✅ Image detection and filtering
 - ✅ Size and format validation
-- ✅ **Dual dimension checking (natural and rendered)**
 - ✅ Responsive image handling (CSS scaling)
 - ✅ Thumbnail detection and exclusion
 - ✅ **Interactive parent detection (WCAG 4.1.2)**
@@ -185,9 +166,6 @@ The test suite covers:
 - ✅ Accessibility attributes
 - ✅ Dynamic image loading
 - ✅ Error handling
-- ✅ AI model download progress tracking
-- ✅ Model availability states (readily, after-download, no)
-- ✅ Progress callback integration
 - ✅ **Alt text caching and reuse**
 - ✅ Cache hit/miss scenarios
 - ✅ Multi-image cache management
@@ -279,29 +257,13 @@ The build process excludes:
 - Loading animations
 - Accessibility helpers (screen-reader-only content)
 
-## Browser Compatibility
-
-| Feature | Chrome | Edge | Firefox | Safari |
-|---------|--------|------|---------|--------|
-| Extension | ✅ Canary/Dev | ❓ Untested | ❌ No | ❌ No |
-| Popover API | ✅ 114+ | ✅ 114+ | ❌ No | ❌ No |
-| Chrome AI | ✅ Canary | ❌ No | ❌ No | ❌ No |
-
-**Note**: This extension currently requires Chrome Canary or Chrome Dev with experimental AI features enabled. It may not work in stable Chrome or other browsers.
-
 ## Known Limitations
 
-- Requires experimental Chrome AI features
-- Only works in Chrome Canary/Dev builds
+- Requires Chrome AI features
 - AI-generated text quality depends on Chrome's AI capabilities
-- Cannot analyze image content directly (relies on context clues)
-- Popover API support is limited to Chromium browsers
-- First-time use may require downloading the Gemini Nano model (progress shown in dialog)
-- Model download requires internet connection and may take several minutes
 
 ## Future Enhancements
 
-- 🔄 Cache generated alt text for performance
 - 🎨 Customizable button positioning
 - 💾 Export generated alt text as CSV/JSON
 - 🔍 Option to edit AI-generated text
