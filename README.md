@@ -3,11 +3,13 @@
 **jaiid** (Just AI image descriptions) - A Chrome extension that uses Google Chrome's built-in AI (Nano) to automatically generate descriptive alt text for images on web pages, making the web more accessible.
 
 ## Requirements
-Although this extension works with the current stable version of Chrome, the output can contain extraneous information. In order to ensure consistent output, enable the following flags.
+Although this extension works with the current stable version of Chrome, the output can contain extraneous and/or inaccurate information. In order to ensure consistent and accurate output, enable the following flags.
 
 1. Open Chrome and navigate to `chrome://flags`.
 2. Search for "Prompt API".
 3. Enable the `Prompt API` and `Prompt API Multimodal Input` flags.
+4. Search for "Gemma 4".
+4. Enable the `Gemma 4 for Built-in AI` flag. (Increases speed and accuracy).
 4. Restart Chrome.
 
 ## Features
@@ -269,6 +271,7 @@ The build process excludes:
 
 - Requires Chrome AI features
 - AI-generated text quality depends on Chrome's AI capabilities
+- The icon button code generated can break the layout of the webpage
 
 ## Future Enhancements
 

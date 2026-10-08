@@ -1,6 +1,6 @@
 {
   "name": "jaiid",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Just AI image descriptions",
   "scripts": {
     "test": "jest",
@@ -11,8 +11,8 @@
     "rebuild": "npm run clean && npm run build"
   },
   "devDependencies": {
-    "@jest/globals": "^29.7.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "@jest/globals": "^30.5.2",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2"
   }
 }

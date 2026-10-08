@@ -547,4 +547,4 @@ describe('Content Script - Duplicate Icon Prevention', () => {
       done();
     }, 200);
   });
-});}
+});

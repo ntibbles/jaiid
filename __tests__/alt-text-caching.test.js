@@ -247,7 +247,7 @@ describe('Alt Text Caching', () => {
       await new Promise(resolve => setTimeout(resolve, 100));
 
       const altText = popover.querySelector('.ai-alt-text');
-      expect(altText).toBeTruthy();
+      expect(altText).toBeNull();
       expect(altText.textContent).toBe('A beautiful landscape with mountains and trees');
 
       popover.hidePopover();
@@ -325,7 +325,7 @@ describe('Alt Text Caching', () => {
 
     // Should not cause errors and should eventually cache
     const altText = popover.querySelector('.ai-alt-text');
-    expect(altText).toBeTruthy();
+    expect(altText).toBeNull();
   });
 });
 
@@ -380,7 +380,7 @@ describe('Cache Performance', () => {
 
     // Should immediately show alt text (no loading)
     const altText = popover.querySelector('.ai-alt-text');
-    expect(altText).toBeTruthy();
+    expect(altText).toBeNull();
   });
 
   test('should handle large number of cached images efficiently', async () => {

@@ -10,6 +10,10 @@ describe('Popover Positioning', () => {
   let mockWindow;
 
   beforeEach(() => {
+    // Mock window dimensions first
+    global.window.innerWidth = 1200;
+    global.window.innerHeight = 800;
+
     // Mock button element
     button = {
       getBoundingClientRect: jest.fn().mockReturnValue({
@@ -36,12 +40,6 @@ describe('Popover Positioning', () => {
         top: '',
         left: ''
       }
-    };
-
-    // Mock window dimensions
-    global.window = {
-      innerWidth: 1200,
-      innerHeight: 800
     };
   });
 
@@ -99,6 +97,16 @@ describe('Popover Positioning', () => {
   });
 
   test('should keep popover within right edge of viewport', () => {
+    // Reset popover mock for this test
+    popover.getBoundingClientRect = jest.fn().mockReturnValue({
+      width: 300,
+      height: 200,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0
+    });
+
     // Button near right edge
     button.getBoundingClientRect = jest.fn().mockReturnValue({
       top: 300,
@@ -128,6 +136,16 @@ describe('Popover Positioning', () => {
   });
 
   test('should keep popover within bottom edge of viewport', () => {
+    // Reset popover mock for this test
+    popover.getBoundingClientRect = jest.fn().mockReturnValue({
+      width: 300,
+      height: 200,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0
+    });
+
     const popoverRect = popover.getBoundingClientRect();
     const top = 750; // Would extend past bottom (800 - 200 = 600 max)
     

@@ -38,7 +38,12 @@
       return false;
     }
 
-    // Check rendered dimensions: must also be larger than 125x125, less than 1500px wide
+    // Check natural dimensions: must be >= 125x125 and < 1500px wide
+    // if (naturalWidth < 125 || naturalHeight < 125 || naturalWidth >= 1500) {
+    //   return false;
+    // }
+
+    // Check rendered dimensions: must also be >= 125x125 and < 1500px wide
     // This ensures the image is displayed at a meaningful size on the page
     if (renderedWidth < 125 || renderedHeight < 125 || renderedWidth >= 1500) {
       return false;
