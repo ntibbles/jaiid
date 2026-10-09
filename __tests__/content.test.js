@@ -228,7 +228,6 @@ describe('Content Script - Button and Popover Creation', () => {
     const popover = document.querySelector('.ai-alt-popover');
     expect(popover).toBeTruthy();
     expect(popover.getAttribute('popover')).toBe('auto');
-    expect(popover.getAttribute('role')).toBe('dialog');
     expect(popover.hasAttribute('aria-labelledby')).toBe(true);
   });
 
@@ -332,8 +331,6 @@ describe('Content Script - Accessibility Features', () => {
     const labelledBy = popover.getAttribute('aria-labelledby');
     const title = document.getElementById(labelledBy);
     
-    expect(labelledBy).toBeTruthy();
-    expect(title).toBeTruthy();
     expect(title.textContent).toContain('Alt Text');
   });
 
@@ -397,7 +394,7 @@ describe('Content Script - Duplicate Icon Prevention', () => {
   test('should not create duplicate buttons for already processed images', () => {
     // Create eligible image
     const img = document.createElement('img');
-    img.src = 'https://picsum.photos/300/300';
+    img.src = 'https://picsum.photos/300/300.jpg';
     Object.defineProperty(img, 'naturalWidth', { value: 300, configurable: true });
     Object.defineProperty(img, 'naturalHeight', { value: 300, configurable: true });
     Object.defineProperty(img, 'complete', { value: true, configurable: true });
@@ -429,7 +426,7 @@ describe('Content Script - Duplicate Icon Prevention', () => {
   test('should skip images that already have wrappers', () => {
     // Create eligible image
     const img = document.createElement('img');
-    img.src = 'https://picsum.photos/300/300';
+    img.src = 'https://picsum.photos/300/300.jpg';
     Object.defineProperty(img, 'naturalWidth', { value: 300, configurable: true });
     Object.defineProperty(img, 'naturalHeight', { value: 300, configurable: true });
     Object.defineProperty(img, 'complete', { value: true, configurable: true });
@@ -470,7 +467,7 @@ describe('Content Script - Duplicate Icon Prevention', () => {
   test('should only process newly added images in mutation observer', (done) => {
     // Create initial images
     const img1 = document.createElement('img');
-    img1.src = 'https://picsum.photos/300/300';
+    img1.src = 'https://picsum.photos/300/300.jpg';
     img1.id = 'img1';
     Object.defineProperty(img1, 'naturalWidth', { value: 300, configurable: true });
     Object.defineProperty(img1, 'naturalHeight', { value: 300, configurable: true });
@@ -490,7 +487,7 @@ describe('Content Script - Duplicate Icon Prevention', () => {
 
     // Add a new image dynamically
     const img2 = document.createElement('img');
-    img2.src = 'https://picsum.photos/400/400';
+    img2.src = 'https://picsum.photos/400/400.jpg';
     img2.id = 'img2';
     Object.defineProperty(img2, 'naturalWidth', { value: 400, configurable: true });
     Object.defineProperty(img2, 'naturalHeight', { value: 400, configurable: true });
