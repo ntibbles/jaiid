@@ -22,8 +22,8 @@
     "service_worker": "background.js"
   },
   "icons": {
-    "16": "images/ai-alt-icon.svg",
-    "48": "images/ai-alt-icon.svg",
-    "128": "images/ai-alt-icon.svg"
+    "16": "images/alt-text-icon-16.png",
+    "48": "images/alt-text-icon-48.png",
+    "128": "images/alt-text-icon-128.png"
   }
 }
