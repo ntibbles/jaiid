@@ -338,11 +338,18 @@
     popover.innerHTML = `
       <div class="ai-alt-popover-header">
         <h2 id="${popoverId}-title" class="ai-alt-popover-title">AI Image Description</h2>
-        <button class="ai-alt-close-btn" popovertarget="${popoverId}" popovertargetaction="hide" aria-label="Close dialog">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
-          </svg>
-        </button>
+        <div class="ai-alt-header-actions">
+          <button class="ai-alt-copy-btn" aria-label="Copy description to clipboard" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+            </svg>
+          </button>
+          <button class="ai-alt-close-btn" popovertarget="${popoverId}" popovertargetaction="hide" aria-label="Close dialog">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="ai-alt-popover-content">
         <p class="ai-alt-loading" role="status">Generating alt text...</p>
@@ -369,9 +376,13 @@
       };
     }
 
+    const copyBtn = popover.querySelector('.ai-alt-copy-btn');
+    let originalHTML = copyBtn.innerHTML;
+
     // Handle popover toggle
     popover.addEventListener('toggle', async (event) => {
       if (event.newState === 'open') {
+        
         // Position popover above the button
         positionPopover(popover, button);
         
@@ -391,13 +402,38 @@
         popover.addEventListener('toggle', cleanupHandler, { once: true });
         
         const contentDiv = popover.querySelector('.ai-alt-popover-content');
-        
+
         // Check cache first
         const cachedAltText = altTextCache.get(imageId);
         
         if (cachedAltText) {
           // Use cached alt text (no loading state needed)
           contentDiv.innerHTML = `<p class="ai-alt-text" role="alert">${cachedAltText}</p>`;
+          
+          // Enable copy button
+          copyBtn.disabled = false;
+
+          // reset the copy button
+          copyBtn.innerHTML = originalHTML;
+          copyBtn.setAttribute('aria-label', 'Copy description to clipboard');
+          
+          // Set up copy button handler
+          copyBtn.onclick = async () => {
+            try {
+              await navigator.clipboard.writeText(cachedAltText);
+              // Visual feedback
+              originalHTML = copyBtn.innerHTML;
+              copyBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"/>
+                </svg>
+              `;
+              copyBtn.setAttribute('aria-label', 'Copied!');
+              
+            } catch (err) {
+              console.error('Failed to copy text:', err);
+            }
+          };
         } else {
           // No cache - generate new alt text
           contentDiv.innerHTML = '<div class="ai-alt-loading" role="status" aria-live="polite">Generating alt text...</div>';
@@ -418,6 +454,27 @@
           
           // Update popover with result
           contentDiv.innerHTML = `<p class="ai-alt-text" role="alert">${altText}</p>`;
+
+          // Enable copy button
+          copyBtn.disabled = false;
+          
+          // Set up copy button handler
+          copyBtn.onclick = async () => {
+            try {
+              await navigator.clipboard.writeText(altText);
+              // Visual feedback
+              //const originalHTML = copyBtn.innerHTML;
+              copyBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"/>
+                </svg>
+              `;
+              copyBtn.setAttribute('aria-label', 'Copied!');
+              
+            } catch (err) {
+              console.error('Failed to copy text:', err);
+            }
+          };
 
           // reposition with new content
           positionPopover(popover, button);
