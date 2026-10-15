@@ -6,10 +6,10 @@
 Although this extension works with the current stable version of Chrome, the output can contain extraneous and/or inaccurate information. In order to ensure consistent and accurate output, enable the following flags.
 
 1. Open Chrome and navigate to `chrome://flags`.
-2. Search for "Prompt API".
-3. Enable the `Prompt API` and `Prompt API Multimodal Input` flags.
+2. Search for "Prompt API". 
+3. Enable the [`Prompt API`](chrome://flags/#prompt-api)and [`Prompt API Multimodal Input`](chrome://flags/#prompt-api-multimodal-input) flags.
 4. Search for "Gemma 4".
-4. Enable the `Gemma 4 for Built-in AI` flag. (Increases speed and accuracy).
+4. Enable the [`Gemma 4 for Built-in AI`](chrome://flags/#gemma4-for-built-in-ai) flag. (Increases speed and accuracy).
 4. Restart Chrome.
 
 ## Features
@@ -269,17 +269,15 @@ The build process excludes:
 
 ## Known Limitations
 
-- Requires Chrome AI features
+- Requires Chrome AI features (Prompt API & Gemma)
 - AI-generated text quality depends on Chrome's AI capabilities
 - The icon button code generated can break the layout of the webpage
 
 ## Future Enhancements
 
-- 🎨 Customizable button positioning
 - 💾 Export generated alt text as CSV/JSON
 - 🔍 Option to edit AI-generated text
 - 🌐 Multi-language support
-- 📋 Copy alt text to clipboard
 
 ## Contributing
 
