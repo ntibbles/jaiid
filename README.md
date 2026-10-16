@@ -2,6 +2,9 @@
 
 **jaiid** (Just AI image descriptions) - A Chrome extension that uses Google Chrome's built-in AI (Nano) to automatically generate descriptive alt text for images on web pages, making the web more accessible.
 
+## Inspiration
+The 2026 WebAIM screen reader survey identified several factors that inpired this extension. Firstly, Chrome is the number one browser used with all screen readers. Secondly, screen reader users are mainly using AI to help them understand image content. Either by generating image descriptions / alternative text or to provide in-depth analysis or description of complex images. This extension accomplishes both. By being screen reader centric it easily generates the image descriptions that screen reader users want.
+
 ## Requirements
 Although this extension works with the current stable version of Chrome, the output can contain extraneous and/or inaccurate information. In order to ensure consistent and accurate output, enable the following flags.
 
